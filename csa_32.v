@@ -28,7 +28,7 @@ module csa_32(a, b, ci, co, ovf, out);
 	rca_8 q2_ci_1(a[23:16], b[23:16], 1'b1, guess_co[5], guess_out[55:48]);
 	rca_8_ovf q3_q2ci_1_q3ci_0(a[31:24], b[31:24], 1'b0, guess_co[6], guess_ovf[2], guess_out[71:64]);
 	rca_8_ovf q3_q2ci_1_q3ci_1(a[31:24], b[31:24], 1'b1, guess_co[7], guess_ovf[3], guess_out[79:72]);
-	mux select_co_31_16_di_1(guess_co[6], guess_co[7], guess_co[5], real_co[3]);
+	mux select_co_31_16_ci_1(guess_co[6], guess_co[7], guess_co[5], real_co[3]);
 	mux select_ovf_ci_1(guess_ovf[2], guess_ovf[3], guess_co[5], real_ovf[1]);
 	mux8 select_out_31_16_ci_1(guess_out[71:64], guess_out[79:72], guess_co[5], guess_out[63:56]);
 	
