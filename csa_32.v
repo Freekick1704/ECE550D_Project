@@ -4,10 +4,10 @@ module csa_32(a, b, ci, co, ovf, out);
 	output co, ovf;
 	output [31:0] out;
 	wire [3:0] real_co;
-	wire [8:0] guess_co;
+	wire [7:0] guess_co;
 	wire [1:0] real_ovf;
 	wire [3:0] guess_ovf;
-	wire [80:0] guess_out;
+	wire [79:0] guess_out;
 	
 	
 	rca_8 q0(a[7:0], b[7:0], ci, real_co[0], out[7:0]);
