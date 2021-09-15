@@ -2,9 +2,6 @@ db
 incremental_db
 output_files
 simulation
-*.qpf
-*.qsf
-*.qws
 *.rpt
 *.bak
 *.vwf
