@@ -21,6 +21,6 @@ module is_not_zero(a, out);
 		end
 	endgenerate
 	
-	or final_or(layer3[0], layer3[1], out);
+	or final_or(out, layer3[0], layer3[1]);
 	
 endmodule
