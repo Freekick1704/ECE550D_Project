@@ -7,7 +7,7 @@ module alu(data_operandA, data_operandB, ctrl_ALUopcode, ctrl_shiftamt, data_res
    output isNotEqual, isLessThan, overflow;
 
    // YOUR CODE HERE //
-	wire ci, co, iszero;
+	wire ci, co;
 	wire [31:0] data_operandB_adjusted, addsub_result, and_result, or_result, sll_result, sra_result;
 	assign ci = ctrl_ALUopcode[0];
 	xor32_1 adjustB(data_operandB, ci, data_operandB_adjusted);
