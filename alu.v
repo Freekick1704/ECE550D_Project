@@ -21,7 +21,7 @@ module alu(data_operandA, data_operandB, ctrl_ALUopcode, ctrl_shiftamt, data_res
 	is_not_zero compute_isnotequal(addsub_result, isNotEqual);
 	assign  isLessThan = overflow ? data_operandA[31] : addsub_result[31];
 	
-	mux32_5 select_output(addsub_result, and32_result, or32_result, sll_result, sra_result, ctrl_ALUopcode, data_result);
+	mux32_5 select_output(addsub_result, and_result, or_result, sll_result, sra_result, ctrl_ALUopcode, data_result);
 
 	
 endmodule
