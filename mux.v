@@ -39,5 +39,5 @@ module mux32_5(a, b, c, d, e, opcode, out);
 	wire [31:0] bitwise_op, shift_op;
 	mux32 bitwise_mux(b, c, opcode[0], bitwise_op);
 	mux32 shift_mux(d, e, opcode[0], shift_op);
-	mux32_4 select_op_mux(a, bitwise_op, shift_op, 'h00000000, out);
+	mux32_4 select_op_mux(a, bitwise_op, shift_op, 'h00000000, opcode[2:1], out);
 endmodule
