@@ -2,6 +2,7 @@ db
 incremental_db
 output_files
 simulation
+*_tb.v
 ECE550D_Project.qpf
 ECE550D_Project.qsf
 ECE550D_Project.qws
