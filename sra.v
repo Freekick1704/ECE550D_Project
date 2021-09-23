@@ -7,11 +7,11 @@ module sra(a, shift_amt, out);
 		genvar i;
 		for (i = 0; i < 1; i = i + 1)
 			begin : gen1_1
-				mux my_mux1_1(a[32 - i - 1], a[31], shift_amt[0], connection[i]);
+				mux my_mux1_1(a[31 - i], a[31], shift_amt[0], connection[i]);
 			end
 		for (i = 1; i < 32; i = i + 1)
 			begin : gen1
-				mux my_mux1(a[32 - i - 1], a[32 - i], shift_amt[0], connection[i]);
+				mux my_mux1(a[31 - i], a[32 - i], shift_amt[0], connection[i]);
 			end
 		for (i = 0; i < 2; i = i + 1)
 			begin : gen2_2
@@ -39,11 +39,11 @@ module sra(a, shift_amt, out);
 			end
 		for (i = 0; i < 16; i = i + 1)
 			begin : gen5_16
-				mux my_mux5_16(connection[i + 96], a[31], shift_amt[4], out[i]);
+				mux my_mux5_16(connection[i + 96], a[31], shift_amt[4], out[31 - i]);
 			end
 		for (i = 16; i < 32; i = i + 1)
 			begin : gen5
-				mux my_mux5(connection[i + 96], connection[i + 80], shift_amt[4], out[i]);
+				mux my_mux5(connection[i + 96], connection[i + 80], shift_amt[4], out[31 - i]);
 			end
 	endgenerate
 endmodule
