@@ -39,7 +39,7 @@
 
 set_global_assignment -name FAMILY "Cyclone IV E"
 set_global_assignment -name DEVICE EP4CE115F29C7
-set_global_assignment -name TOP_LEVEL_ENTITY alu
+set_global_assignment -name TOP_LEVEL_ENTITY regfile
 set_global_assignment -name ORIGINAL_QUARTUS_VERSION 16.0.0
 set_global_assignment -name PROJECT_CREATION_TIME_DATE "05:28:50  SEPTEMBER 13, 2021"
 set_global_assignment -name LAST_QUARTUS_VERSION 16.0.0
@@ -59,6 +59,8 @@ set_global_assignment -name EDA_TEST_BENCH_NAME alu_tb -section_id eda_simulatio
 set_global_assignment -name EDA_DESIGN_INSTANCE_NAME NA -section_id alu_tb
 set_global_assignment -name EDA_TEST_BENCH_MODULE_NAME alu_tb -section_id alu_tb
 set_global_assignment -name EDA_TEST_BENCH_FILE alu_tb.v -section_id alu_tb
+set_global_assignment -name VERILOG_FILE regfile_tb.v
+set_global_assignment -name VERILOG_FILE regfile.v
 set_global_assignment -name VERILOG_FILE sll.v
 set_global_assignment -name VERILOG_FILE is_not_zero.v
 set_global_assignment -name VERILOG_FILE and32.v
@@ -71,6 +73,7 @@ set_global_assignment -name VERILOG_FILE mux.v
 set_global_assignment -name VERILOG_FILE rca_8.v
 set_global_assignment -name VERILOG_FILE or32.v
 set_global_assignment -name VERILOG_FILE sra.v
+set_global_assignment -name VERILOG_FILE tristate.v
 set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
 set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top
 set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
