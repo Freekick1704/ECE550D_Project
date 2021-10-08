@@ -79,7 +79,7 @@ Auxiliaries:
 
 No bugs or issues are discovered at this moment.
 
-## Checkpoint 3: Regfile
+## Checkpoint 3: Register File
 
 ### Design Implementation
 
@@ -115,6 +115,11 @@ reg32:
 * Connected 32 my_dffe modules in parallel.
 * Corresponding file: reg32.v
 
+### Speed
+
+Tested using the "Fast-M 1.2V 0 Model" in Gate Level Simulation, the estimated maximum frequency that our register file can be clocked is about 83.333 MHz (Clock cycle = 12ns).
+
 ### Bugs or Issues
 
 No bugs or issues are discovered at this moment.
+
