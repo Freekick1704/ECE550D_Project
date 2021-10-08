@@ -78,3 +78,43 @@ Auxiliaries:
 ### Bugs or Issues
 
 No bugs or issues are discovered at this moment.
+
+## Checkpoint 3: Regfile
+
+### Design Implementation
+
+Regfile:
+
+* Connected 32 reg32 modules in parallel.
+* Used decoder5_32 to get the control bit(w, r1, r2).
+* Anded the write control bit with the write enabled bit together as reg32 only takes in one parameter to decide whether it should be overwritten.
+* Connected each reading output to the 2 tristate32 modules with r1 and r2 as the read control bit respectively and linked the output wire to the two different reading output.
+* Permanently set the write enabled input of register $0 to 0 so as to guarantee the data inside is always 0.
+* Corresponding files: regfile.v
+
+decoder5_32:
+
+* Implemented 5-32 decoder based on the bit pattern of the input.
+* 5-bit input has 32 different bit patterns, so we first not_gated the input and then enumerated all possible patterns based on (intput, !input) combination by a 5-element and_gate.
+* As each 5-bit input is unique, only one bit will be turned on among all the 32 bits in the output.
+* Corresponding files: decoder5_32.v
+
+tristate:
+
+* Implemented tristate buffer using ternery operator, if the control input is 1, pass the input through, else return high impedence.
+* Connected 32 tristate buffer modules in parallel to form tristate32.
+* Corresponding files: tristate.v
+
+my_dffe:
+
+* Followed the design in dffe_ref.v.
+* Corresponding files: my_dffe.v
+
+reg32:
+
+* Connected 32 my_dffe modules in parallel.
+* Corresponding file: reg32.v
+
+### Bugs or Issues
+
+No bugs or issues are discovered at this moment.
