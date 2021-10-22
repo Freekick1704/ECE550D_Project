@@ -11,3 +11,5 @@ ECE550D_Project.qws
 *.vwf
 *.qip
 *.mif
+*.s
+*.asm
