@@ -111,7 +111,7 @@ module processor(
 	 
 	 wire is_I;
 	 assign is_I = opcode[2] | opcode[3];
-	 assign ctrl_writeEnable = opcode[1];
+	 assign ctrl_writeEnable = ~opcode[1];
 	 
 	 wire[31:0] sxed_immediate, ALUinB;
 	 wire isNotEqual, isLessThan, overflow, is_LW;
