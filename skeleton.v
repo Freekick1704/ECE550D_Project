@@ -19,6 +19,10 @@ module skeleton(clock, reset, imem_clock, dmem_clock, processor_clock, regfile_c
         based on proper functioning with this clock.
     */
     output imem_clock, dmem_clock, processor_clock, regfile_clock;
+	 phase_clock phase_clock_pc(clock, 0, processor_clock);
+	 phase_clock phase_clock_imem(clock, 1, imem_clock);
+	 phase_clock phase_clock_dmem(clock, 3, dmem_clock);
+	 phase_clock phase_clock_regfile(clock, 0, regfile_clock);
 
     /** IMEM **/
     // Figure out how to generate a Quartus syncram component and commit the generated verilog file.

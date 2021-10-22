@@ -91,5 +91,44 @@ module processor(
     input [31:0] data_readRegA, data_readRegB;
 
     /* YOUR CODE STARTS HERE */
+	 wire [31:0] pc_value;
+	 pc my_pc(clock, reset, 1, pc_value);
+	 assign address_imem = pc_value[11:0];
+	 
+	 wire [4:0] opcode, rd, rs, rt, shamt, ALUop;
+	 wire [16:0] immediate;
+	 assign opcode = q_imem[31:27];
+	 assign rd = q_imem[26:22];
+	 assign rs = q_imem[21:17];
+	 assign rt = q_imem[16:12];
+	 assign shamt = q_imem[11:7];
+	 assign ALUop = q_imem[6:2];
+	 assign immediate = q_imem[16:0];
+	 
+	 assign ctrl_writeReg = rd;
+	 assign ctrl_readRegA = rs;
+	 assign ctrl_readRegB = rt;
+	 
+	 wire is_I;
+	 assign is_I = opcode[2] | opcode[3];
+	 assign ctrl_writeEnable = opcode[1];
+	 
+	 wire[31:0] sxed_immediate, ALUinB;
+	 wire isNotEqual, isLessThan, overflow, is_LW;
+	 sx_17_32 my_sx(immediate, sxed_immediate);
+	 mux32 my_mux(data_readRegB, sxed_immediate, is_I, ALUinB);
+	 alu my_alu(data_readRegA, ALUinB, opcode, shamt, address_dmem, isNotEqual, isLessThan, overflow);
+	 assign data = data_readRegB;
+	 assign is_LW = opcode[3];
+	 mux32 my_mux2(address_dmem, q_dmem, is_LW, data_writeReg);
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
 
 endmodule
