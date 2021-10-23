@@ -9,14 +9,9 @@
  * inspect which signals the processor tries to assert when.
  */
 
-module skeleton(clock, reset, imem_clock, dmem_clock, processor_clock, regfile_clock,iadd,insn,r1,d1,r2,d2,am,di,do,w);
+module skeleton(clock, reset, imem_clock, dmem_clock, processor_clock, regfile_clock);
     input clock, reset;
-	 
-	 /*test*/
-	 output[4:0] r1, r2;
-	 output[31:0] d1, d2, insn,w,di, do;
-	 output[11:0] iadd,am;
-	 
+
     /* 
         Create four clocks for each module from the original input "clock".
         These four outputs will be used to run the clocked elements of your processor on the grading side. 
@@ -74,17 +69,7 @@ module skeleton(clock, reset, imem_clock, dmem_clock, processor_clock, regfile_c
         data_readRegA,
         data_readRegB
     );
-	 /*test*/
-	 assign r1 = ctrl_readRegA;
-	 assign r2 = ctrl_readRegB;
-	 assign d1 = data_readRegA;
-	 assign d2 = data_readRegB;
-	 assign w = data_writeReg;
-	 assign am = address_dmem;
-	 assign di = data;
-	 assign do = q_dmem;
-	 assign insn = q_imem;
-	 assign iadd = address_imem;
+
 	 
 
     /** PROCESSOR **/
