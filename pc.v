@@ -8,7 +8,7 @@ module pc(clk, rst, en, q);
 			d <= 0;
 		else if (en) begin
 			q = d;
-			d = d + 4;
+			d = d + 1;
 		end
 	end
 endmodule

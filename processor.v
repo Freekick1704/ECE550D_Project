@@ -92,40 +92,45 @@ module processor(
 
     /* YOUR CODE STARTS HERE */
 	 wire [31:0] pc_value;
+	 wire [4:0] opcode, rd, rs, rt, shamt, ALUop;
+	 wire [16:0] immediate;
+	 	 
+	 wire[31:0] sxed_immediate, ALUinB, ALU_res;
+	 wire isNotEqual, isLessThan, rough_ovf, precise_ovf, is_LW, is_I;
+	 
+	 
 	 pc my_pc(clock, reset, 1, pc_value);
 	 assign address_imem = pc_value[11:0];
 	 
-	 wire [4:0] opcode, rd, rs, rt, shamt, ALUop;
-	 wire [16:0] immediate;
+	 
+
 	 assign opcode = q_imem[31:27];
 	 assign rd = q_imem[26:22];
 	 assign rs = q_imem[21:17];
 	 assign rt = q_imem[16:12];
 	 assign shamt = q_imem[11:7];
-	 assign ALUop = q_imem[6:2];
+	 assign is_I = opcode[2] | opcode[3];
+	 assign ALUop = is_I ? 5'b0 : q_imem[6:2];
 	 assign immediate = q_imem[16:0];
 	 
-	 assign ctrl_writeReg = rd;
+
 	 assign ctrl_readRegA = rs;
-	 assign ctrl_readRegB = rt;
+	 assign ctrl_readRegB = opcode == 5'b00111 ? rd : rt;
 	 
-	 wire is_I;
-	 assign is_I = opcode[2] | opcode[3];
+	 
+
 	 assign ctrl_writeEnable = ~opcode[1];
-	 
-	 wire[31:0] sxed_immediate, ALUinB;
-	 wire isNotEqual, isLessThan, overflow, is_LW;
+
+	 assign wren = opcode[1];
 	 sx_17_32 my_sx(immediate, sxed_immediate);
 	 mux32 my_mux(data_readRegB, sxed_immediate, is_I, ALUinB);
-	 alu my_alu(data_readRegA, ALUinB, opcode, shamt, address_dmem, isNotEqual, isLessThan, overflow);
+	 alu my_alu(data_readRegA, ALUinB, ALUop, shamt, ALU_res, isNotEqual, isLessThan, rough_ovf);
+	 assign precise_ovf = ((opcode == 5'b00000) && (ALUop == 5'b00000 || ALUop == 5'b00001)) || (opcode == 5'b00101) ? rough_ovf : 0;
 	 assign data = data_readRegB;
 	 assign is_LW = opcode[3];
-	 mux32 my_mux2(address_dmem, q_dmem, is_LW, data_writeReg);
-	 
-	 
-	 
-	 
-	 
+	 assign address_dmem = ALU_res[11:0];
+	 assign data_writeReg = is_LW ? q_dmem : (precise_ovf ? (ALUop[0] ? 3 : (opcode[0] ? 2 : 1)) : ALU_res);
+	 assign ctrl_writeReg = precise_ovf ? 5'b11110 : rd;
 	 
 	 
 	 
