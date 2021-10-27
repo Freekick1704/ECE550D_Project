@@ -123,3 +123,54 @@ Tested using the "Fast-M 1.2V 0 Model" in Gate Level Simulation, the estimated m
 
 No bugs or issues are discovered at this moment.
 
+## Checkpoint 4: Simple Processor
+
+### Design Implementation
+
+skeleton:
+
+* Represents the whole datapath.
+* Wraps different components required in a datapath. Links the processor module with instruction memory, data memory, and register file.
+* Generates clocks for the processor, instruction memory, data memory, and register file by activating them at different stages of the phase_clock.
+* Corresponding file: skeleton.v
+
+processor:
+
+* Parses various instructions read from the instruction memory and executes them.
+* Mainly consists of PC and ALU
+* Some auxiliaries like multiplexers and the sign extension unit are also included.
+* Corresponding file: processor.v
+
+phase_clock:
+
+* Used to generate clocks for the processor, instruction memory, data memory, and register file.
+* Separates the input clock cycle into 4 stages. The phase_clock is only asserted during one of the stages, determined by the input parameter.
+* Activates the processor at the first stage, the instruction memory at the second stage, and the data memory at the fourth stage (Leaves the third stage unused to reserve enough time for instruction reading and parsing, register file reading, and ALU operations). Let the clock of the register file be the same as the processor clock (both are activated at the first stage) to let the processor execute the next instruction at the same time when the register file is still writing (let these two components work on different instructions in parallel) to increase efficiency.
+* Corresponding file: phase_clock.v
+
+pc:
+
+* This module is the program counter.
+* Implemented by a 32-bit register.
+* Corresponding file: pc.v
+
+sx_17_32:
+
+* This module is the sign extension unit.
+* Extends a 17-bit binary sequence to 32 bits by filling the 15 most significant bits of the new 32-bit sequence with the value same as the value of the most significant bit (sign bit) of the original sequence.
+* Corresponding file: sx_17_32.v
+
+dmem:
+
+* Data memory generated using syncram
+* Corresponding file: dmem.v
+
+imem:
+
+* Instruction memory generated using syncram
+* Corresponding file: imem.v
+
+### Bugs or Issues
+
+No bugs or issues are discovered at this moment.
+
