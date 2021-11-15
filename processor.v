@@ -91,7 +91,7 @@ module processor(
     input [31:0] data_readRegA, data_readRegB;
 
     /* YOUR CODE STARTS HERE */
-	 wire [31:0] pc_value;
+	 wire [31:0] pc_value, pc_in, pc_value_plus;
 	 wire [4:0] opcode, rd, rs, rt, shamt, ALUop;
 	 wire [16:0] immediate;
 	 	 
@@ -99,7 +99,13 @@ module processor(
 	 wire isNotEqual, isLessThan, rough_ovf, precise_ovf, is_LW, is_I;
 	 
 	 
-	 pc my_pc(clock, reset, 1, pc_value);
+	 wire isJ, isB, bType, isJR;
+	 assign isJ = opcode == 1 || opcode == 3 || opcode == 4 || ((opcode == 5'b10110) && isNotEqual);
+	 assign isB = opcode == 2 || opcode == 6;
+	 assign bType = opcode[2] ? isLessThan : isNotEqual;
+	 assign isJR = opcode == 4;
+	 pc my_pc(pc_in, clock, reset, 1, pc_value, pc_value_plus);
+	 pc_calc pc_buddy(pc_value_plus, pc_in, isJ, isB, bType, sxed_immediate, q_imem[26:0], isJR, data_readRegA);
 	 assign address_imem = pc_value[11:0];
 	 
 	 
@@ -109,28 +115,28 @@ module processor(
 	 assign rs = q_imem[21:17];
 	 assign rt = q_imem[16:12];
 	 assign shamt = q_imem[11:7];
-	 assign is_I = opcode[2] | opcode[3];
+	 assign is_I = opcode == 2 || (opcode >= 5 && opcode <= 8);
 	 assign ALUop = is_I ? 5'b0 : q_imem[6:2];
 	 assign immediate = q_imem[16:0];
 	 
 
-	 assign ctrl_readRegA = rs;
-	 assign ctrl_readRegB = opcode == 5'b00111 ? rd : rt;
+	 assign ctrl_readRegA = opcode == 5'b10110 ? 5'b11110 : (opcode == 4 ? 5'b11111 : rs);
+	 assign ctrl_readRegB = opcode == 5'b10110 ? 0 : (opcode == 5'b00111 ? rd : rt);
 	 
 	 
 
-	 assign ctrl_writeEnable = ~opcode[1];
+	 assign ctrl_writeEnable = opcode == 0 || opcode == 3 || opcode == 5 || opcode == 8 || opcode == 5'b10101;
 
-	 assign wren = opcode[1];
+	 assign wren = opcode == 7;
 	 sx_17_32 my_sx(immediate, sxed_immediate);
 	 mux32 my_mux(data_readRegB, sxed_immediate, is_I, ALUinB);
 	 alu my_alu(data_readRegA, ALUinB, ALUop, shamt, ALU_res, isNotEqual, isLessThan, rough_ovf);
 	 assign precise_ovf = ((opcode == 5'b00000) && (ALUop == 5'b00000 || ALUop == 5'b00001)) || (opcode == 5'b00101) ? rough_ovf : 0;
 	 assign data = data_readRegB;
-	 assign is_LW = opcode[3];
+	 assign is_LW = opcode == 8;
 	 assign address_dmem = ALU_res[11:0];
-	 assign data_writeReg = is_LW ? q_dmem : (precise_ovf ? (ALUop[0] ? 3 : (opcode[0] ? 2 : 1)) : ALU_res);
-	 assign ctrl_writeReg = precise_ovf ? 5'b11110 : rd;
+	 assign data_writeReg = opcode == 5'b10101 ? q_imem[26:0] : (opcode == 3 ? pc_value + 1 : ((is_LW ? q_dmem : (precise_ovf ? (ALUop[0] ? 3 : (opcode[0] ? 2 : 1)) : ALU_res))));
+	 assign ctrl_writeReg = opcode == 5'b10101 ? 5'b11110 : (opcode == 3 ? 5'b11111 : (precise_ovf ? 5'b11110 : rd));
 	 
 	 
 	 
