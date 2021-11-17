@@ -116,12 +116,12 @@ module processor(
 	 assign rt = q_imem[16:12];
 	 assign shamt = q_imem[11:7];
 	 assign is_I = opcode == 2 || (opcode >= 5 && opcode <= 8);
-	 assign ALUop = is_I ? 5'b0 : q_imem[6:2];
+	 assign ALUop = (opcode == 2 || opcode == 6 || opcode == 5'b10110) ? 1 : (is_I ? 0 : q_imem[6:2]);
 	 assign immediate = q_imem[16:0];
 	 
 
-	 assign ctrl_readRegA = opcode == 5'b10110 ? 5'b11110 : (opcode == 4 ? 5'b11111 : rs);
-	 assign ctrl_readRegB = opcode == 5'b10110 ? 0 : (opcode == 5'b00111 ? rd : rt);
+	 assign ctrl_readRegA = (isB || isJR) ? rd : (opcode == 5'b10110 ? 5'b11110 : (opcode == 4 ? 5'b11111 : rs));
+	 assign ctrl_readRegB = isB ? rs :(opcode == 5'b10110 ? 0 : (opcode == 5'b00111 ? rd : rt));
 	 
 	 
 
@@ -129,7 +129,9 @@ module processor(
 
 	 assign wren = opcode == 7;
 	 sx_17_32 my_sx(immediate, sxed_immediate);
-	 mux32 my_mux(data_readRegB, sxed_immediate, is_I, ALUinB);
+	 assign ALUinB = (is_I && !isB) ? sxed_immediate : data_readRegB;
+	 // assign ALUop = (opcode == 2 || opcode == 6 || opcode == 5'b10110) ? 1 : ALUop;
+	 //mux32 my_mux(data_readRegB, sxed_immediate, is_I, ALUinB);
 	 alu my_alu(data_readRegA, ALUinB, ALUop, shamt, ALU_res, isNotEqual, isLessThan, rough_ovf);
 	 assign precise_ovf = ((opcode == 5'b00000) && (ALUop == 5'b00000 || ALUop == 5'b00001)) || (opcode == 5'b00101) ? rough_ovf : 0;
 	 assign data = data_readRegB;
