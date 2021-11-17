@@ -1,5 +1,6 @@
 db
 incremental_db
+greybox_tmp
 output_files
 simulation
 *_tb.v
@@ -13,3 +14,5 @@ ECE550D_Project.qws
 *.mif
 *.s
 *.asm
+*_x.v
+*_x_bb.v
