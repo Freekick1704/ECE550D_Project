@@ -174,3 +174,27 @@ imem:
 
 No bugs or issues are discovered at this moment.
 
+
+## Checkpoint 5: Full Processor
+
+### Design Implementation
+
+pc:
+
+* Added pc_calc module to support branch and jump.
+* Used mux to decide what type of jump/branch to perform and whether to take the jump/branch.
+* Moved pc increment logic back to pc register module to resolve the "booting" problem.
+* Corresponding file: pc.v
+
+processor:
+
+* Added full opcode parsing for branch/jump.
+* Wired ALU ouput(isNotEqual/isLessThan) with pc_calc to support branch.
+* Adjusted reading register number and ALUop to tailor for branching.
+* Used mux to support instructions related to r30 and r31 read/write.
+* Corresponding file: processor.v
+
+### Bugs or Issues
+
+No bugs or issues are discovered at this moment.
+
