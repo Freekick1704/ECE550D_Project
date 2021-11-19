@@ -9,7 +9,7 @@
  * inspect which signals the processor tries to assert when.
  */
 
-module skeleton(clock, reset, imem_clock, dmem_clock, processor_clock, regfile_clock,iadd,insn, r1, d1, r2, d2,am,di,doo,w);
+module skeleton(clock, reset, imem_clock, dmem_clock, processor_clock, regfile_clock/*,iadd,insn, r1, d1, r2, d2,am,di,doo,w*/);
     input clock, reset;
 
     /* 
@@ -28,9 +28,10 @@ module skeleton(clock, reset, imem_clock, dmem_clock, processor_clock, regfile_c
     
 	 
 	 //Test
+	 /*
 	 output[4:0] r1, r2;
 	 output[31:0] d1, d2, iadd, insn, am, di, doo, w;
-	 
+	 */
 	 
     /** IMEM **/
     // Figure out how to generate a Quartus syncram component and commit the generated verilog file.
@@ -105,7 +106,8 @@ module skeleton(clock, reset, imem_clock, dmem_clock, processor_clock, regfile_c
     );
 
 	 
-	 // 1Q											`aTest
+	 // Test
+	 /*
 	 assign r1 = ctrl_readRegA;
 	 assign r2 = ctrl_readRegB;
 	 assign d1 = data_readRegA;
@@ -116,4 +118,5 @@ module skeleton(clock, reset, imem_clock, dmem_clock, processor_clock, regfile_c
 	 assign di = data;
 	 assign doo = q_dmem;
 	 assign w = data_writeReg;
+	 */
 endmodule
