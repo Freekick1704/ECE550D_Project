@@ -194,6 +194,11 @@ processor:
 * Used mux to support instructions related to r30 and r31 read/write.
 * Corresponding file: processor.v
 
+### Testing Method
+
+* We indeed used waveform timing simulation to test our processor.
+* The four .png files are the snapshots of the generated waveform.
+
 ### Bugs or Issues
 
 No bugs or issues are discovered at this moment.
