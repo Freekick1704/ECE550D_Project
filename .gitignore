@@ -16,3 +16,5 @@ ECE550D_Project.qws
 *.asm
 *_x.v
 *_x_bb.v
+*mem.v
+*_test.v
